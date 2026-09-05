@@ -37,13 +37,10 @@
 //BACKUP
 if(isset($_POST["backup"])){
 
-	define("DB_USER", 'McJim');
-	define("DB_PASSWORD", 'Restricted654123');
-	define("DB_NAME", 'inventory');
-	define("DB_HOST", 'localhost');
+	require("config.php");
 	define("BACKUP_DIR", 'BACKUP'); // Comment this line to use same script's directory ('.')
 	define("TABLES", '*'); // Full backup
-
+	
 	//define("TABLES", 'table1, table2, table3'); // Partial backup
 	define("CHARSET", 'utf8');
 	define("GZIP_BACKUP_FILE", true); // Set to false if you want plain SQL backup files (not gzipped)
@@ -286,7 +283,7 @@ if(isset($_POST["backup"])){
 		echo '<div style="margin:-40px 20px 20px 20px;font-family: monospace;background:#000;color:#FFF;border-radius:5px;padding:20px">';
 		echo '<a href="backup.php"><input class="btn btn-danger btn" type=button value=" Clear Console " /></a><br><br>';
 	}
-	$backupDatabase = new Backup_Database(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, CHARSET);
+	$backupDatabase = new Backup_Database(DB_HOST, DB_USER, DB_PASS, DB_NAME, CHARSET);
 	$result = $backupDatabase->backupTables(TABLES, BACKUP_DIR) ? 'SUCCESS!' : 'FAILED!';
 	// $backupDatabase->obfPrint('Backup result: ' . $result, 1);
 	// Use $output variable for further processing, for example to send it by email
@@ -306,10 +303,7 @@ if(isset($_POST["backup"])){
 		fclose($fh); 
 
 		// Define database parameters here
-		define("DB_USER", 'McJim');
-		define("DB_PASSWORD", 'Restricted654123');
-		define("DB_NAME", 'inventory');
-		define("DB_HOST", 'localhost');
+		require("config.php");
 		define("BACKUP_DIR", 'BACKUP'); // Comment this line to use same script's directory ('.')
 		define("BACKUP_FILE", $file); // Script will autodetect if backup file is gzipped based on .gz extension
 		define("CHARSET", 'utf8');
@@ -486,7 +480,7 @@ if(isset($_POST["backup"])){
 		echo '<div style="margin:-40px 20px 20px 20px;width:auto;font-family: monospace;background:#000;color:#FFF;border-radius:5px;padding:20px">';
 		echo '<a href="backup.php"><input class="btn btn-danger btn-sm" type=button value=" Clear Console " /></a><br>';
 		}
-		$restoreDatabase = new Restore_Database(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+		$restoreDatabase = new Restore_Database(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 		$result = $restoreDatabase->restoreDb(BACKUP_DIR, BACKUP_FILE) ? 'SUCCESS!' : 'FAILED!';
 		$restoreDatabase->obfPrint("Restoration result: ".$result, 1);
 		if (php_sapi_name() != "cli") {
