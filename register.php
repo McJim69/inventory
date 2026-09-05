@@ -1,0 +1,186 @@
+<?php
+    include_once'db/connect_db.php';
+    session_start();
+    if($_SESSION['role']!=="Admin"){
+        header('location:index.php');
+    }
+    include_once'inc/header_all.php';
+
+    error_reporting(0);
+
+    $id = $_GET['id'];
+
+    $delete = $pdo->prepare("DELETE FROM tbl_user WHERE user_id=".$id);
+
+    if($delete->execute()){
+        echo'<script type="text/javascript">
+            jQuery(function validation(){
+            swal("Info", "User Has Been Deleted", "info", {
+            button: "Continue",
+                });
+            });
+            </script>';
+    }
+
+    if(isset($_POST['submit'])){
+
+        $username = $_POST['username'];
+        $fullname = $_POST['fullname'];
+        $password = $_POST['password'];
+        $role = $_POST['select_option'];
+        $status = $_POST['status'];
+
+        //check if the email already exist
+        if(isset($_POST['username'])){
+            $select = $pdo->prepare("SELECT username FROM tbl_user WHERE username='$username'");
+            $select->execute();
+
+            if($select->rowCount() > 0 ){
+                echo'<script type="text/javascript">
+                    jQuery(function validation(){
+                    swal("Warning", "User Name Already Added", "warning", {
+                    button: "Continue",
+                        });
+                    });
+                    </script>';
+            } else {
+                //insert query here
+                $insert = $pdo->prepare("INSERT INTO tbl_user(username,fullname,password,role,is_active) VALUES(:name,:fullname,:pass,:role,1)");
+
+                //binding the values parameter with input from user
+                $insert->bindParam(':name',$username);
+                $insert->bindParam(':fullname',$fullname);
+                $insert->bindParam(':pass',$password);
+                $insert->bindParam(':role',$role);
+
+                //if execution $insert
+                if($insert->execute()){
+                    echo'<script type="text/javascript">
+                        jQuery(function validation(){
+                        swal("Success", "User Baru Sudah Ditambahkan", "success", {
+                        button: "Continue",
+                            });
+                        });
+                        </script>';
+                }
+            }
+        }
+    }
+?>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <form action="" method="POST">
+            <!-- Registration Form -->
+            <div class="col-md-4">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">New Account</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                        <div class="box-body">
+                                <div class="form-group">
+                                    <label for="username">User Name</label>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fname">Complete Name</label>
+                                    <input type="text" class="form-control" id="fname" name="fullname" placeholder="Enter Full Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="password" name="status" placeholder="Password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Authority </label>
+                                    <select class="form-control" name="select_option" required>
+                                        <option>Admin</option>
+                                        <option>Operator</option>
+                                    </select>
+                                </div>
+                        </div><!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary" name="submit">Add User</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Registered Table -->
+            <div class="col-md-8">
+            <div class="box">
+                <div class="box-header with-border">
+                <h3 class="box-title">User List</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div style="overflow-x:auto;">
+                        <table class="table table-striped" id="myRegister">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>User Name</th>
+                                    <th>Full Name</th>
+                                    <th>Authority</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                $select = $pdo->prepare("SELECT * FROM tbl_user");
+                                $select->execute();
+                                while($row=$select->fetch(PDO::FETCH_OBJ)){
+                                ?>
+                                    <tr>
+                                    <td><?php echo $no++; ?></td>
+                                    <td><?php echo $row->username; ?></td>
+                                    <td><?php echo $row->fullname; ?></td>
+                                    <td><?php echo $row->role; ?></td>
+									<td><?php  
+											$status=$row->is_active;
+											if(($status)=="0"){
+												echo"<b style='color:red'>Inactive</b>";
+											}else{
+												echo"<b style='color:green'>Active</b>";
+											}
+										?>
+									</td>
+                                    <td>
+                                        <a href="register.php?id=<?php echo $row->user_id; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Delete User?')"><i class="fa fa-trash" title="Delete"></i></a>
+                                        <a href="users_deactivate.php?id=<?php echo $row->user_id; ?>" class="btn btn-warning btn-sm" onclick="return confirm('Are You Sure, You Want To Deactivate The Account?')" title="Deactivate"><i class="fa fa-power-off"></i></a>
+                                        <a href="users_activate.php?id=<?php echo $row->user_id; ?>" class="btn btn-success btn-sm" onclick="return confirm('Are You Sure, You Want To Activate The Account?')" title="Activate"><i class="fa fa-check"></i></a>
+                                    </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            </div>
+        </form>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <script>
+  $(document).ready( function () {
+      $('#myRegister').DataTable();
+  } );
+  </script>
+
+<?php include_once'inc/footer_all.php'; ?>
