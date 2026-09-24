@@ -32,6 +32,7 @@
     $select = $pdo->prepare("SELECT * FROM tbl_category WHERE cat_id = '".$_GET['id']."' ");
     $select->execute();
     $row = $select->fetch(PDO::FETCH_OBJ);
+    if (!$row) { header('location:category.php'); exit; }
     $cat_name = $row->cat_name;
   }else{
     header('location:category.php');

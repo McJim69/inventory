@@ -10,7 +10,7 @@ if(isset($_POST['btn_login'])){
     $select->execute();
     $row = $select->fetch(PDO::FETCH_ASSOC);
 
-    if($row['username']==$username AND $row['password']==$password AND $row['role']=="Admin" AND $row['is_active']=="1"){
+    if($row && $row['username']==$username AND $row['password']==$password AND $row['role']=="Admin" AND $row['is_active']=="1"){
         $_SESSION['user_id']=$row['user_id'];
         $_SESSION['username']=$row['username'];
         $_SESSION['fullname']=$row['fullname'];

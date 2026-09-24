@@ -18,7 +18,7 @@
         $select = $pdo->prepare("SELECT count(product_code) as total FROM tbl_product WHERE stock <= min_stock");
         $select->execute();
         $row=$select->fetch(PDO::FETCH_OBJ);
-        $total1 = $row->total;
+        $total1 = $row ? $row->total : 0;
         ?>
         <!-- get alert notification -->
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -27,8 +27,8 @@
 
             <div class="info-box-content">
               <span class="info-box-text"><h4><b style="color:#222d32">Out of Stock</b></h4></span>
-              <?php if($total1==true){ ?>
-              <div style="font-weight:bold;text-align:center;background:#fff;padding:3px;font-size:20px"><?php echo $row->total;?></div>
+              <?php if($total1){ ?>
+              <div style="font-weight:bold;text-align:center;background:#fff;padding:3px;font-size:20px"><?php echo $total1;?></div>
               <?php }else{?>
               <div style="font-weight:bold;text-align:center;background:#fff;padding:3px;font-size:20px">None</div>
               <?php }?>
@@ -44,7 +44,7 @@
         $select = $pdo->prepare("SELECT count(product_code) as t FROM tbl_product");
         $select->execute();
         $row=$select->fetch(PDO::FETCH_OBJ);
-        $total = $row->t;
+        $total = $row ? $row->t : 0;
         ?>
 
         <!-- get total products notification -->
@@ -54,7 +54,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text"><h4><b style="color:#222d32">Total Items</b></h4></span>
-              <div style="font-weight:bold;text-align:center;background:#fff;padding:3px;font-size:20px"><?php echo $row->t ?></div>
+              <div style="font-weight:bold;text-align:center;background:#fff;padding:3px;font-size:20px"><?php echo $total ?></div>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -66,7 +66,7 @@
         $select = $pdo->prepare("SELECT count(invoice_id) as i FROM tbl_invoice WHERE order_date = CURDATE()");
         $select->execute();
         $row=$select->fetch(PDO::FETCH_OBJ);
-        $invoice = $row->i ;
+        $invoice = $row ? $row->i : 0;
         ?>
          <!-- get today transactions notification -->
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -75,7 +75,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text"><h4><b style="color:#222d32">Rollout Today</b></h4></span>
-              <div style="font-weight:bold;text-align:center;background:#fff;padding:3px;font-size:20px"><?php echo $row->i ?></div>
+              <div style="font-weight:bold;text-align:center;background:#fff;padding:3px;font-size:20px"><?php echo $invoice ?></div>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -88,7 +88,7 @@
         $select = $pdo->prepare("SELECT sum(qty) as total FROM tbl_invoice_detail WHERE order_date = CURDATE()");
         $select->execute();
         $row=$select->fetch(PDO::FETCH_OBJ);
-        $total = $row->total ;
+        $total = $row ? $row->total : 0;
         ?>
          <!-- get today income -->
         <div class="col-md-3 col-sm-6 col-xs-12">

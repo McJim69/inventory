@@ -10,6 +10,7 @@
     $select = $pdo->prepare("SELECT * FROM tbl_product WHERE product_id=$id");
     $select->execute();
     $row = $select->fetch(PDO::FETCH_ASSOC);
+    if (!$row) { header('location:items.php'); exit; }
 
     $productCode_db = $row['product_code'];
     $productName_db = $row['product_name'];

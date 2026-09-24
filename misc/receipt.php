@@ -11,6 +11,7 @@ $id = $_GET['id'];
 $select = $pdo->prepare("SELECT * FROM tbl_invoice WHERE invoice_id=$id");
 $select->execute();
 $row = $select->fetch(PDO::FETCH_OBJ);
+if(!$row) { die("Invalid ID"); }
 
 require('../getvalue.php');
 

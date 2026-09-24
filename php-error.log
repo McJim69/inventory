@@ -325,3 +325,19 @@ Stack trace:
 [17-Sep-2026 12:56:08 UTC] PHP Stack trace:
 [17-Sep-2026 12:56:08 UTC] PHP   1. {main}() D:\Server\www\projects\inventory\index.php:0
 [17-Sep-2026 12:56:08 UTC] PHP   2. include_once() D:\Server\www\projects\inventory\index.php:2
+[20-Sep-2026 16:44:01 UTC] PHP Warning:  Undefined variable $dbhost in D:\Server\www\projects\inventory\db\connect_db.php on line 5
+[20-Sep-2026 16:44:01 UTC] PHP Stack trace:
+[20-Sep-2026 16:44:01 UTC] PHP   1. {main}() D:\Server\www\projects\inventory\index.php:0
+[20-Sep-2026 16:44:01 UTC] PHP   2. include_once() D:\Server\www\projects\inventory\index.php:2
+[20-Sep-2026 16:44:01 UTC] PHP Warning:  Undefined variable $dbname in D:\Server\www\projects\inventory\db\connect_db.php on line 5
+[20-Sep-2026 16:44:01 UTC] PHP Stack trace:
+[20-Sep-2026 16:44:01 UTC] PHP   1. {main}() D:\Server\www\projects\inventory\index.php:0
+[20-Sep-2026 16:44:01 UTC] PHP   2. include_once() D:\Server\www\projects\inventory\index.php:2
+[20-Sep-2026 16:44:01 UTC] PHP Warning:  Undefined variable $dbuser in D:\Server\www\projects\inventory\db\connect_db.php on line 5
+[20-Sep-2026 16:44:01 UTC] PHP Stack trace:
+[20-Sep-2026 16:44:01 UTC] PHP   1. {main}() D:\Server\www\projects\inventory\index.php:0
+[20-Sep-2026 16:44:01 UTC] PHP   2. include_once() D:\Server\www\projects\inventory\index.php:2
+[20-Sep-2026 16:44:01 UTC] PHP Warning:  Undefined variable $dbpass in D:\Server\www\projects\inventory\db\connect_db.php on line 5
+[20-Sep-2026 16:44:01 UTC] PHP Stack trace:
+[20-Sep-2026 16:44:01 UTC] PHP   1. {main}() D:\Server\www\projects\inventory\index.php:0
+[20-Sep-2026 16:44:01 UTC] PHP   2. include_once() D:\Server\www\projects\inventory\index.php:2

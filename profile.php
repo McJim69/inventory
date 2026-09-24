@@ -26,7 +26,7 @@
         $select->execute();
 
         $row = $select->fetch(PDO::FETCH_ASSOC);
-
+        if (!$row) { header('location:index.php'); exit; }
         $username_db = $row['username'];
         $password_db = $row['password'];
 

@@ -34,6 +34,7 @@ if($id=$_GET['id']){
     $select = $pdo->prepare("SELECT * FROM tbl_unit WHERE kd_unit = '".$_GET['id']."' ");
     $select->execute();
     $row = $select->fetch(PDO::FETCH_OBJ);
+    if (!$row) { header('location:unit.php'); exit; }
     $sat_name = $row->nm_unit;
 }else{
     header('location:unit.php');

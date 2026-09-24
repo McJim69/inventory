@@ -54,7 +54,7 @@
                     $select->bindParam(':todate', $_POST['date_2']);
                     $select->execute();
                     $row = $select->fetch(PDO::FETCH_OBJ);
-                    $invoice = $row->invoice;
+                    $invoice = $row ? $row->invoice : 0;
                   ?>
 
 				  <?php
@@ -63,7 +63,7 @@
 					$select->bindParam(':todate', $_POST['date_2']);
 					$select->execute();
                     $row = $select->fetch(PDO::FETCH_OBJ);
-                    $items = $row->quantity;
+                    $items = $row ? $row->quantity : 0;
 				  ?>
 
               <div class="row">

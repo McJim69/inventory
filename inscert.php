@@ -53,6 +53,7 @@
 				$query = $pdo->prepare("SELECT * FROM tbl_invoice WHERE invoice_id=$id");
 				$query->execute();
 				$row = $query->fetch(PDO::FETCH_OBJ);
+                if(!$row) { die("Invalid ID"); }
 				require('getvalue.php');
 				
 				echo"		
